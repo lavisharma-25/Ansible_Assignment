@@ -1,0 +1,39 @@
+name: Install Nginx
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  install_nginx:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Update apt Package
+        run: |
+          sudo apt update
+
+      - name: Install Ansible
+        run: |
+          sudo apt install ansible
+          # python -m pip install --upgrade pip
+          # pip install ansible
+
+      - name: Generate SSH Key
+        run: |
+          ansible-playbook -i inventory.ini copySSH.yml
+
+      - name: Run Ansible playbook
+        # env:
+        #   ANSIBLE_HOST_KEY_CHECKING: false
+        run: |
+          ansible-playbook -i inventory.ini install-nginx.yml
