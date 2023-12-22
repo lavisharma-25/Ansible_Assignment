@@ -24,14 +24,17 @@ jobs:
           # pip install ansible
 
       - name: Set up SSH key
+        env:
+          SSH_KEY: ${{ secrets.PRIVATE_SSH_KEY }}
         run: |
           mkdir -p /home/runner/.ssh
           echo "$SSH_KEY" > /home/runner/.ssh/id_rsa
           chmod 400 /home/runner/.ssh/id_rsa
-        env:
-          SSH_KEY: ${{ secrets.PRIVATE_SSH_KEY }}
-          
 
-      - name: Run Ansible playbook
+          
+      - name: Pinging
         run: |
-          ansible-playbook -i inventory.ini nginx-install.yml
+            ansible all -i inventory.ini -m ping
+      # - name: Run Ansible playbook
+      #   run: |
+      #     ansible-playbook -i inventory.ini nginx-install.yml
