@@ -1,9 +1,7 @@
 name: Install Nginx
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   install_nginx:
