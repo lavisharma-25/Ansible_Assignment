@@ -25,8 +25,11 @@ jobs:
 
       - name: Set up SSH key
         run: |
-          echo "$PRIVATE_SSH_KEY" > /home/runner/.ssh/id_rsa
+          mkdir -p /home/runner/.ssh
+          echo "$SSH_KEY" > /home/runner/.ssh/id_rsa
           chmod 400 /home/runner/.ssh/id_rsa
+        env:
+          SSH_KEY: ${{ secrets.PRIVATE_SSH_KEY }}
           
 
       - name: Run Ansible playbook
