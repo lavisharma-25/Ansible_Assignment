@@ -16,22 +16,18 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Update apt Package
+      - name: Update apt Package and Install Ansible
         run: |
           sudo apt update
-
-      - name: Install Ansible
-        run: |
           sudo apt install ansible
           # python -m pip install --upgrade pip
           # pip install ansible
 
-      - name: Generate SSH Key
+      - name: Set up SSH key
         run: |
-          ansible-playbook -i inventory.ini copySSH.yml
+          echo "$PRIVATE_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 400 ~/.ssh/id_rsa
 
       - name: Run Ansible playbook
-        # env:
-        #   ANSIBLE_HOST_KEY_CHECKING: false
         run: |
           ansible-playbook -i inventory.ini install-nginx.yml
