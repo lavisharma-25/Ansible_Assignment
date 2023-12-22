@@ -31,7 +31,7 @@ jobs:
 
       - name: Ping Node
         run: |
-          ansible all -i inventory.ini -m ping
+          ansible -i 3.110.187.195 -u ubuntu --private-key=/home/runner/.ssh/id_rsa -m ping
 
       # - name: Run Ansible playbook
       #   run: |
