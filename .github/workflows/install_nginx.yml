@@ -28,16 +28,13 @@ jobs:
           SSH_KEY: ${{ secrets.PRIVATE_SSH_KEY }}
         run: |
           mkdir -p /home/runner/.ssh
-          echo "$SSH_KEY" > /home/runner/.ssh/id_rsa
+          echo "${{ secrets.PRIVATE_SSH_KEY }}" > /home/runner/.ssh/id_rsa
           chmod 400 /home/runner/.ssh/id_rsa
 
-          
-      - name: Pinging
+      - name: Ping Node
         run: |
-          export PRIVATE_SSH_KEY="$SSH_KEY"
           ansible all -i inventory.ini -m ping
-        env:
-          SSH_KEY: ${{ secrets.PRIVATE_SSH_KEY }}
+
       # - name: Run Ansible playbook
       #   run: |
       #     ansible-playbook -i inventory.ini nginx-install.yml
