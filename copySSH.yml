@@ -1,0 +1,10 @@
+---
+- name: Copy SSH Key to Managed Nodes
+  hosts: all
+  become: true
+  
+  tasks:
+    - name: Copy SSH Key
+      authorized_key:
+        user: "{{ ansible_user  }}"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub')  }}"
