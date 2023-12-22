@@ -34,7 +34,10 @@ jobs:
           
       - name: Pinging
         run: |
-            ansible all -i inventory.ini -m ping
+          export PRIVATE_SSH_KEY="$SSH_KEY"
+          ansible all -i inventory.ini -m ping
+        env:
+          SSH_KEY: ${{ secrets.PRIVATE_SSH_KEY }}
       # - name: Run Ansible playbook
       #   run: |
       #     ansible-playbook -i inventory.ini nginx-install.yml
