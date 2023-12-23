@@ -23,15 +23,26 @@ jobs:
           # python -m pip install --upgrade pip
           # pip install ansible
 
-      - name: Set up Private SSH key
-        run: |
-          mkdir -p /home/runner/.ssh
-          echo "${{ secrets.PRIVATE_SSH_KEY }}" > /home/runner/.ssh/id_rsa
-          chmod 400 /home/runner/.ssh/id_rsa
+      - name: Run Playbook
+        with:
+          playbook: nginx-install.yml
+          directory: ./
+          key: ${{ secrets.PRIVATE_SSH_KEY }}
+          inventory: |
+            [node1]
+            manage-node ansible_host=65.1.1.18 ansible_user=ubuntu ansible_ssh_private_key_file=/home/runner/.ssh/id_rsa
+          options: |
+            --inventory.ini
 
-      - name: Ping Node
-        run: |
-          ansible -i "3.110.187.195" -u ubuntu --private-key=/home/runner/.ssh/id_rsa -m ping
+      # - name: Set up Private SSH key
+      #   run: |
+      #     mkdir -p /home/runner/.ssh
+      #     echo "${{ secrets.PRIVATE_SSH_KEY }}" > /home/runner/.ssh/id_rsa
+      #     chmod 400 /home/runner/.ssh/id_rsa
+
+      # - name: Ping Node
+      #   run: |
+      #     ansible -i "3.110.187.195" -u ubuntu --private-key=/home/runner/.ssh/id_rsa -m ping
 
       # - name: Run Ansible playbook
       #   run: |
