@@ -30,8 +30,12 @@ jobs:
   
       - name: Ping Node
         run: |
-          ansible all -i inventory.ini --private-key=/home/runner/.ssh/id_rsa -u ubuntu -m ping
+          ansible all -i inventory.ini --private-key=/home/runner/.ssh/id_rsa -m ping
 
-      # - name: Run Ansible playbook
-      #   run: |
-      #     ansible-playbook -i inventory.ini nginx-install.yml
+      - name: Run Ansible playbook
+        run: |
+          # ansible-playbook -i inventory.ini nginx-install.yml 
+          ansible-playbook -i inventory.ini --private-key=/home/runner/.ssh/id_rsa nginx-install.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: false
+
