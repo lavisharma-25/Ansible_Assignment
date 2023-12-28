@@ -26,11 +26,13 @@ jobs:
           mkdir -p /home/runner/.ssh/
           echo "${{ secrets.PRIVATE_SSH_KEY }}" > /home/runner/.ssh/id_rsa
           chmod 600 /home/runner/.ssh/id_rsa
-        shell: bash
+        # shell: bash
   
-      # - name: Ping Node
-      #   run: |
-      #     ansible all -i inventory.ini --private-key=/home/runner/.ssh/id_rsa -m ping
+      - name: Ping Node
+        run: |
+          ansible all -i inventory.ini --private-key=/home/runner/.ssh/id_rsa -m ping
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: false
 
       - name: Run Ansible playbook
         run: |
